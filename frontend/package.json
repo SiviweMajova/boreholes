@@ -1,0 +1,9 @@
+{
+    "name": "Boreholes",
+    "description": "Borehole management system",
+    "version": "1.0",
+    "dependencies": {
+      "angular": "1.6.5",
+      "angular-route": "1.6.5"
+    }
+  }
