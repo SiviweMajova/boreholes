@@ -1,5 +1,5 @@
 {
-  "name": "Boreholes server",
+  "name": "Boreholes-server",
   "description": "Borehole management system server",
   "version": "1.0.0",
   "dependencies": {
