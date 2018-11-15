@@ -1,16 +1,16 @@
-<div ng-controller="boreholeList">
+<div ng-controller="boreholeList" ng-init="getList()">
     <h3>Borehole List</h3>
-    <table>
+    <table cellpadding="5">
         <thead>
             <tr><th>Name</th><th>Type</th><th>Lat</th><th>Long</th><th>Elevation (in metres)</th></tr>
         </thead>
         <tbody>
             <tr ng-repeat="borehole in list">
                 <td>{{borehole.name}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{borehole.b_type}}</td>
+                <td>{{borehole.latitude}}</td>
+                <td>{{borehole.longitude}}</td>
+                <td>{{borehole.elevation}}</td>
             </tr>
         </tbody>
     </table>

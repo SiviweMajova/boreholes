@@ -22,7 +22,13 @@ db.connect(function(err) {
     console.log('Connected to mysql aws database...');
 });
 
-api.use(express.json()); // to read request body
+api.use(express.json());  // to read request body
+api.use(function (req, res, next) {
+    // Allow the front end to get resources
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8002');
+
+    next();
+});
 
 // GET - list of boreholes
 api.get('/listBoreholes', function (req, res) {
@@ -35,8 +41,8 @@ api.get('/listBoreholes', function (req, res) {
  // POST - add borehole
  api.post('/addBorehole', function(req, res) {
     //not null checking, we assume all fields are provided
-    db.query('insert into borehole (name, latitude, longitude, elevation) values("'
-    +req.body.name+'", '+req.body.latitude+', '+req.body.longitude+', '+req.body.elevation+');',
+    db.query('insert into borehole (name, b_type, latitude, longitude, elevation) values("'
+    +req.body.name+'", "'+req.body.b_type+'", '+req.body.latitude+', '+req.body.longitude+', '+req.body.elevation+');',
     function(err, results, fields) {
         if(err) throw err;
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -47,7 +53,7 @@ api.get('/listBoreholes', function (req, res) {
  api.patch('/updateBorehole', function(req, res) {
     //not null checking, we assume all fields are provided
     db.query('update borehole set name="'
-    +req.body.name+'", latitude='+req.body.latitude+', longitude='+req.body.longitude+', elevation='+req.body.elevation+');',
+    +req.body.name+'", b_type="'+req.body.b_type+'", latitude='+req.body.latitude+', longitude='+req.body.longitude+', elevation='+req.body.elevation+');',
     function(err, results, fields) {
         if(err) throw err;
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));

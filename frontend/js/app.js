@@ -8,9 +8,15 @@ app.config(function($routeProvider) {
     });
 });
 
-app.controller('boreholeList', ['$scope', '$http', function($scope, $http) {
+app.controller('boreholeList', ['$scope', '$http', function ($scope, $http) {
 
-    $scope.list = [{name: 'Borehole1'}, {name: 'Borehole2'}];
+    $scope.getList = function () {
+        $http.get('http://localhost:8001/listBoreholes').then(function (data) {
+            $scope.list = data.data.response;
+        }, function (err) {
+            console.log(err);
+        });
+    }
 
 }]);
 
