@@ -22,17 +22,63 @@ db.connect(function(err) {
     console.log('Connected to mysql aws database...');
 });
 
+api.use(express.json()); // to read request body
+
 // GET - list of boreholes
-app.get('/listBoreholes', function (req, res) {
-    db.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+api.get('/listBoreholes', function (req, res) {
+    db.query('SELECT * from borehole', function (error, results, fields) {
         if (error) throw error;
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
       });
- })
- 
+ });
+
+ // POST - add borehole
+ api.post('/addBorehole', function(req, res) {
+    //not null checking, we assume all fields are provided
+    db.query('insert into borehole (name, latitude, longitude, elevation) values("'
+    +req.body.name+'", '+req.body.latitude+', '+req.body.longitude+', '+req.body.elevation+');',
+    function(err, results, fields) {
+        if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+ });
+
+ // Patch - update existing borehole
+ api.patch('/updateBorehole', function(req, res) {
+    //not null checking, we assume all fields are provided
+    db.query('update borehole set name="'
+    +req.body.name+'", latitude='+req.body.latitude+', longitude='+req.body.longitude+', elevation='+req.body.elevation+');',
+    function(err, results, fields) {
+        if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+ });
+
+ // Delete - update existing borehole
+ api.delete('/deleteBorehole', function(req, res) {
+    //not null checking, we assume all fields are provided
+    db.query('delete from borehole where id='+req.body.id+';',
+    function(err, results, fields) {
+        if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+ });
+
  var server = api.listen(PORT, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log("Borehole server listening at http://%s:%s", host, port);
- })
+ });
+
+
+ // Exit gracefully
+ process.on('SIGTERM', function() {
+    server.close(function() {
+      console.log('Http server closed.');
+      db.connection.close(false, function() {
+        console.log('MySQL connection closed.');
+        process.exit(0);
+      });
+    });
+});
 
