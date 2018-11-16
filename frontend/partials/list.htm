@@ -15,6 +15,8 @@
                 <td>{{borehole.longitude}}</td>
                 <td>{{borehole.elevation}}</td>
                 <td><a ng-click="deleteBorehole(borehole.id)" href="#">Delete</a></td>
+                <td><a ng-href="#!update/{{borehole.id}}">Update</a></td>
+                <td><a ng-href="#!waterLevel/{{borehole.id}}">Update Level</a></td>
             </tr>
         </tbody>
     </table>

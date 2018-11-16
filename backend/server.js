@@ -58,7 +58,8 @@ api.get('/listBoreholes', function (req, res) {
  api.patch('/updateBorehole', function(req, res) {
     //not null checking, we assume all fields are provided
     db.query('update borehole set name="'
-    +req.body.name+'", b_type="'+req.body.b_type+'", latitude='+req.body.latitude+', longitude='+req.body.longitude+', elevation='+req.body.elevation+');',
+    +req.body.name+'", b_type="'+req.body.b_type+'", latitude='+req.body.latitude+', longitude='+req.body.longitude+', elevation='+req.body.elevation+
+    'where id='+req.body.id+';',
     function(err, results, fields) {
         if(err) throw err;
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -69,6 +70,24 @@ api.get('/listBoreholes', function (req, res) {
  api.delete('/deleteBorehole/:id', function(req, res) {
     //not null checking, we assume all fields are provided
     db.query('delete from borehole where id='+req.params.id+';',
+    function(err, results, fields) {
+        if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+ });
+
+ // Add water level for borehole
+ api.post('/addWaterLevel', function(req, res) {
+    db.query('insert into waterlevel(read_date, reading, borehole_id) values(curdate(), '+req.body.reading+', '+req.body.id+');',
+    function(err, results, fields) {
+        if(err) throw err;
+        res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+ });
+
+ api.get('/currentLevel/:id', function(req, res) {
+     // get the last reading
+    db.query('select * from waterlevel where borehole_id='+req.params.id+' and id= (SELECT max(id) FROM waterlevel where borehole_id='+req.params.id+') limit 1;',
     function(err, results, fields) {
         if(err) throw err;
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
