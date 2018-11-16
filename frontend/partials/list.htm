@@ -1,8 +1,11 @@
 <div ng-controller="boreholeList" ng-init="getList()">
     <h3>Borehole List</h3>
-    <table cellpadding="5">
+    <div>
+        <a href="#!add">Add Borehole</a>
+    </div>
+    <table cellpadding="5" ng-show="list.length > 0">
         <thead>
-            <tr><th>Name</th><th>Type</th><th>Lat</th><th>Long</th><th>Elevation (in metres)</th></tr>
+            <tr><th>Name</th><th>Type</th><th>Lat</th><th>Long</th><th>Elevation (in metres)</th><th>Action</th></tr>
         </thead>
         <tbody>
             <tr ng-repeat="borehole in list">
@@ -11,7 +14,9 @@
                 <td>{{borehole.latitude}}</td>
                 <td>{{borehole.longitude}}</td>
                 <td>{{borehole.elevation}}</td>
+                <td><a ng-click="deleteBorehole(borehole.id)" href="#">Delete</a></td>
             </tr>
         </tbody>
     </table>
+    <span ng-show="!list.length">No boreholes to show...</span>
 </div>

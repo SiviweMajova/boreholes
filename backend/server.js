@@ -26,6 +26,11 @@ api.use(express.json());  // to read request body
 api.use(function (req, res, next) {
     // Allow the front end to get resources
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8002');
+    // Methods to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
+    //Headers to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
     next();
 });
@@ -61,9 +66,9 @@ api.get('/listBoreholes', function (req, res) {
  });
 
  // Delete - update existing borehole
- api.delete('/deleteBorehole', function(req, res) {
+ api.delete('/deleteBorehole/:id', function(req, res) {
     //not null checking, we assume all fields are provided
-    db.query('delete from borehole where id='+req.body.id+';',
+    db.query('delete from borehole where id='+req.params.id+';',
     function(err, results, fields) {
         if(err) throw err;
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
