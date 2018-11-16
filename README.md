@@ -17,4 +17,6 @@ Borehole management system for a mine
 
   If your machine does not have the http-server module already installed please install it using npm with the command: `npm install -g http-server`
   
+In your web browser, navigate to `localhost:8002`.
+  
   Thank you.
