@@ -1,0 +1,13 @@
+<div ng-controller="addBorehole">
+    <h3>Add Borehole</h3>
+    <table>
+        <tr><td>Name:</td><td><input type="text" ng-model="borehole.name" /></td></tr>
+        <tr><td>Type:</td><td><input type="text" ng-model="borehole.b_type" /></td></tr>
+        <tr><td>Latitude:</td><td><input type="number" step="0.0000001" ng-model="borehole.latitude" /></td></tr>
+        <tr><td>Longitude:</td><td><input type="number" step="0.00000001" ng-model="borehole.longitude" /></td></tr>
+        <tr><td>Elevation:</td><td><input type="number" step="0.01" ng-model="borehole.elevation" /></td></tr>
+    </table>
+    <input type="submit" ng-click="add(borehole)" value="Add borehole" /> &nbsp; 
+    <a href="/">Cancel</a>
+    
+</div>

@@ -1,0 +1,10 @@
+<div ng-controller="waterLevel" ng-init="getCurrent()">
+    <h3>Water level for {{boreholeName}}</h3>
+    <span> Last reading was {{lastReading}} metres on {{lastDate.substring(0, 10)}}</span>
+    <h5>Update Reading</h5>
+    <table>
+        <tr><td>Reading:</td><td><input type="number" step="0.01" ng-model="newReading" /></td></tr>
+    </table>
+    <input type="submit" ng-click="add(newReading)" value="Update Reading" /> &nbsp; 
+    <a href="/">Cancel</a>
+</div>
